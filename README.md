@@ -1,4 +1,4 @@
-# 🚀 Universal Employee Location Tracking
+# 📍 Universal Employee Location Tracking
 
 [![GitHub Stars](https://img.shields.io/github/stars/lovnishverma/universal-employee-location-tracking?style=social)](https://github.com/lovnishverma/universal-employee-location-tracking/stargazers)
 [![GitHub License](https://img.shields.io/github/license/lovnishverma/universal-employee-location-tracking)](LICENSE)
