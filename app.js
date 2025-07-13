@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-// ✅ Your Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCy2CdR45-n65CU969Kmz39PvWRd-OMkQM",
   authDomain: "location-tracking-85dd8.firebaseapp.com",
@@ -12,7 +11,6 @@ const firebaseConfig = {
   measurementId: "G-CCBQ0NXSBS"
 };
 
-// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -31,7 +29,6 @@ function showSuccess() {
   }, 4000);
 }
 
-// 🔥 Submit Location Handler
 window.submitLocation = async function () {
   document.getElementById("error-message").style.display = "none";
 
@@ -77,5 +74,75 @@ window.submitLocation = async function () {
       default:
         showError("An unknown error occurred.");
     }
+  });
+};
+
+document.getElementById("viewDataBtn").addEventListener("click", async () => {
+  const container = document.getElementById("dataTableContainer");
+  const tbody = document.getElementById("dataTable").querySelector("tbody");
+  tbody.innerHTML = ""; // Clear previous data
+  
+  const querySnapshot = await getDocs(collection(db, "employee_locations"));
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${data.name || "-"}</td>
+      <td>${data.department || "-"}</td>
+      <td>${data.latitude?.toFixed(5) || "-"}</td>
+      <td>${data.longitude?.toFixed(5) || "-"}</td>
+      <td>${data.timestamp ? data.timestamp.toDate().toLocaleString() : "-"}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  container.style.display = "block";
+  document.getElementById("mapContainer").style.display = "none";
+});
+
+document.getElementById("viewMapBtn").addEventListener("click", async () => {
+  const mapContainer = document.getElementById("mapContainer");
+  mapContainer.style.display = "block";
+  document.getElementById("dataTableContainer").style.display = "none";
+
+  const querySnapshot = await getDocs(collection(db, "employee_locations"));
+  const locations = [];
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    locations.push({
+      name: data.name,
+      department: data.department,
+      latitude: data.latitude,
+      longitude: data.longitude
+    });
+  });
+
+  initMap(locations);
+});
+
+window.initMap = (locations = []) => {
+  const centerCoords = locations.length
+    ? { lat: locations[0].latitude, lng: locations[0].longitude }
+    : { lat: 20.5937, lng: 78.9629 }; // Default to India center
+
+  const map = new google.maps.Map(document.getElementById("mapContainer"), {
+    center: centerCoords,
+    zoom: 5,
+  });
+
+  locations.forEach(loc => {
+    const marker = new google.maps.Marker({
+      position: { lat: loc.latitude, lng: loc.longitude },
+      map: map,
+      title: `${loc.name} (${loc.department})`
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<strong>${loc.name}</strong><br>Department: ${loc.department}<br>Lat: ${loc.latitude.toFixed(5)}, Lng: ${loc.longitude.toFixed(5)}`
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
   });
 };
