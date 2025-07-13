@@ -11,8 +11,8 @@
   <h1>Employee Location Tracking 📍</h1>
 
   <div class="form-container">
-    <div id="error-message" aria-live="polite" style="display:none;">⚠️ Please allow location access and fill all fields.</div>
-    <div id="success-message" aria-live="polite" style="display:none;">✅ Location submitted successfully!</div>
+    <div id="error-message" class="message error">⚠️ Please allow location access and fill all fields.</div>
+    <div id="success-message" class="message success">✅ Location submitted successfully!</div>
 
     <p class="instruction">Ensure GPS is enabled and allow browser location permission for accurate tracking.</p>
 
@@ -26,24 +26,26 @@
       <button type="submit">Submit Location 🚀</button>
     </form>
 
-    <button id="viewDataBtn">📄 View Submitted Locations</button>
+    <button id="viewDataBtn" class="secondary-btn">📄 View Submitted Locations</button>
   </div>
 
   <div id="dataTableContainer" class="form-container" style="margin-top: 20px; display: none;">
-    <h2 style="text-align: center;">Submitted Locations (Table View)</h2>
-    <table id="dataTable" border="1" width="100%" style="border-collapse: collapse; text-align: center;">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Department</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-          <th>Timestamp</th>
-          <th>Google Maps Link</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <h2>Submitted Locations</h2>
+    <div class="table-wrapper">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Timestamp</th>
+            <th>Maps Link</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 </body>
 </html>
