@@ -23,9 +23,10 @@ function showError(message) {
 
 function showSuccess() {
   document.getElementById("error-message").style.display = "none";
-  document.getElementById("success-message").style.display = "block";
+  const success = document.getElementById("success-message");
+  success.style.display = "block";
   setTimeout(() => {
-    document.getElementById("success-message").style.display = "none";
+    success.style.display = "none";
   }, 4000);
 }
 
@@ -81,68 +82,25 @@ document.getElementById("viewDataBtn").addEventListener("click", async () => {
   const container = document.getElementById("dataTableContainer");
   const tbody = document.getElementById("dataTable").querySelector("tbody");
   tbody.innerHTML = ""; // Clear previous data
-  
+
   const querySnapshot = await getDocs(collection(db, "employee_locations"));
   querySnapshot.forEach((doc) => {
     const data = doc.data();
+    const lat = data.latitude?.toFixed(5);
+    const lng = data.longitude?.toFixed(5);
+    const mapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "#";
+
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${data.name || "-"}</td>
       <td>${data.department || "-"}</td>
-      <td>${data.latitude?.toFixed(5) || "-"}</td>
-      <td>${data.longitude?.toFixed(5) || "-"}</td>
+      <td>${lat || "-"}</td>
+      <td>${lng || "-"}</td>
       <td>${data.timestamp ? data.timestamp.toDate().toLocaleString() : "-"}</td>
+      <td>${lat && lng ? `<a href="${mapsLink}" target="_blank">Open in Google Maps</a>` : "-"}</td>
     `;
     tbody.appendChild(row);
   });
 
   container.style.display = "block";
-  document.getElementById("mapContainer").style.display = "none";
 });
-
-document.getElementById("viewMapBtn").addEventListener("click", async () => {
-  const mapContainer = document.getElementById("mapContainer");
-  mapContainer.style.display = "block";
-  document.getElementById("dataTableContainer").style.display = "none";
-
-  const querySnapshot = await getDocs(collection(db, "employee_locations"));
-  const locations = [];
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    locations.push({
-      name: data.name,
-      department: data.department,
-      latitude: data.latitude,
-      longitude: data.longitude
-    });
-  });
-
-  initMap(locations);
-});
-
-window.initMap = (locations = []) => {
-  const centerCoords = locations.length
-    ? { lat: locations[0].latitude, lng: locations[0].longitude }
-    : { lat: 20.5937, lng: 78.9629 }; // Default to India center
-
-  const map = new google.maps.Map(document.getElementById("mapContainer"), {
-    center: centerCoords,
-    zoom: 5,
-  });
-
-  locations.forEach(loc => {
-    const marker = new google.maps.Marker({
-      position: { lat: loc.latitude, lng: loc.longitude },
-      map: map,
-      title: `${loc.name} (${loc.department})`
-    });
-
-    const infoWindow = new google.maps.InfoWindow({
-      content: `<strong>${loc.name}</strong><br>Department: ${loc.department}<br>Lat: ${loc.latitude.toFixed(5)}, Lng: ${loc.longitude.toFixed(5)}`
-    });
-
-    marker.addListener("click", () => {
-      infoWindow.open(map, marker);
-    });
-  });
-};
