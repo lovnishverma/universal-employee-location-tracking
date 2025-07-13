@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Universal Employee Location Tracking</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <h1>Employee Location Tracking 📍</h1>
+
+  <div class="form-container">
+    <div id="error-message" aria-live="polite">⚠️ Please allow location access and fill all fields.</div>
+    <div id="success-message" aria-live="polite">✅ Location submitted successfully!</div>
+
+    <p class="instruction">Ensure GPS is enabled and allow browser location permission for accurate tracking.</p>
+
+    <form onsubmit="event.preventDefault(); submitLocation();">
+      <label for="employeeName">Employee Name:</label>
+      <input type="text" id="employeeName" placeholder="Your full name" required>
+
+      <label for="employeeDepartment">Department:</label>
+      <input type="text" id="employeeDepartment" placeholder="Department / Team name" required>
+
+      <button type="submit">Submit Location 🚀</button>
+    </form>
+  </div>
+</body>
+</html>
