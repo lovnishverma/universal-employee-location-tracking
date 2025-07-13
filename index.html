@@ -6,14 +6,13 @@
   <title>Universal Employee Location Tracking</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js" defer></script>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
 </head>
 <body>
   <h1>Employee Location Tracking 📍</h1>
 
   <div class="form-container">
-    <div id="error-message" aria-live="polite">⚠️ Please allow location access and fill all fields.</div>
-    <div id="success-message" aria-live="polite">✅ Location submitted successfully!</div>
+    <div id="error-message" aria-live="polite" style="display:none;">⚠️ Please allow location access and fill all fields.</div>
+    <div id="success-message" aria-live="polite" style="display:none;">✅ Location submitted successfully!</div>
 
     <p class="instruction">Ensure GPS is enabled and allow browser location permission for accurate tracking.</p>
 
@@ -28,7 +27,6 @@
     </form>
 
     <button id="viewDataBtn">📄 View Submitted Locations</button>
-    <button id="viewMapBtn">🗺️ View Locations on Google Map</button>
   </div>
 
   <div id="dataTableContainer" class="form-container" style="margin-top: 20px; display: none;">
@@ -41,12 +39,11 @@
           <th>Latitude</th>
           <th>Longitude</th>
           <th>Timestamp</th>
+          <th>Google Maps Link</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
   </div>
-
-  <div id="mapContainer" style="width: 100%; height: 500px; margin-top: 20px; display: none;" class="form-container"></div>
 </body>
 </html>
