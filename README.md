@@ -8,7 +8,7 @@
 ---
 
 > **Track, View & Manage Employee Location Data with Firebase Firestore and Google Maps Integration.**
-> Suitable for **any department**, **remote teams**, or **organization-wide tracking.**
+> Suitable for **any department**, **remote teams**, or **organization-wide tracking...**
 
 ---
 
