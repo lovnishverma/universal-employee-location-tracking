@@ -173,7 +173,10 @@ This project is licensed under the [MIT License](LICENSE).
 [🔗 Portfolio](https://lovnishverma.github.io/) • [🔗 GitHub](https://github.com/lovnishverma)
 
 ---
+## Check out this version also 
+[Click Here](https://github.com/lovnishverma/universal-employee-location-tracking/blob/main/want%20to%20save%20in%20google%20sheet%20try%20this%20instead.html)
 
+---
 ## ⭐ Contributing
 
 Pull requests are welcome!
