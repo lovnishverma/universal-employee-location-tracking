@@ -15,10 +15,15 @@
 ## 🔥 Features
 
 ✅ Clean Responsive UI
+
 ✅ Mobile Friendly Design
+
 ✅ Live GPS Tracking via Browser
+
 ✅ Firebase Firestore for Data Storage
+
 ✅ Google Maps Link for Direct Location Viewing
+
 ✅ No Google Maps API Key Required
 
 ---
