@@ -111,11 +111,15 @@ Before you start, make sure you have:
 ## 📸 Screenshots
 
 ### 📥 Employee Submission Form
+
 ![Form Screenshot](https://github.com/user-attachments/assets/e13b53b2-58c1-4153-87a8-61b8c75fdd64)
+
 *Clean and intuitive form for employee data entry*
 
 ### 📊 Location Data Table View  
+
 ![Table Screenshot](https://github.com/user-attachments/assets/ee98198b-3848-4782-86c5-36a3457bccf8)
+
 *Responsive table showing all submitted locations with Google Maps integration*
 
 ---
