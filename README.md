@@ -15,7 +15,7 @@
 > **Track, View & Manage Employee Location Data with Firebase Firestore and Google Maps Integration.**
 > Suitable for **any department**, **remote teams**, or **organization-wide tracking.**
 
-👉 **[🚀 LIVE DEMO HERE](https://lovnishverma.github.io/Location-Tracking/)** 👈
+👉 **[🚀 LIVE DEMO HERE](https://lovnishverma.github.io/universal-employee-location-tracking/)** 👈
 
 > ⚠️ **Important:** This project is for educational/demo purposes. Always configure Firebase Security Rules before using in production environments.
 
