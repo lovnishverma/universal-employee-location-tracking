@@ -42,7 +42,7 @@
 
 ## 🎥 Quick Demo 
 
-<video controls><source src="./location_tracker_giff.webm" type="video/webm"></video>
+<video controls><source src="location_tracker_giff.webm" type="video/webm"></video>
 
 *Watch the complete workflow: Fill form → Submit location → View in table → Open Google Maps*
 
