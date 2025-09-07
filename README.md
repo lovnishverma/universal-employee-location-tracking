@@ -1,5 +1,7 @@
 # 📍 Universal Employee Location Tracking (GPS + Firebase Firestore + Google Maps)
 
+![Intro GIF](https://github.com/user-attachments/assets/b57db73f-b0e5-4c97-93bc-8d05b7bf4f9f)
+
 [![GitHub Stars](https://img.shields.io/github/stars/lovnishverma/universal-employee-location-tracking?style=social)](https://github.com/lovnishverma/universal-employee-location-tracking/stargazers)
 [![GitHub License](https://img.shields.io/github/license/lovnishverma/universal-employee-location-tracking)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/lovnishverma/universal-employee-location-tracking)](https://github.com/lovnishverma/universal-employee-location-tracking/issues)
@@ -38,8 +40,9 @@
 
 ---
 
-## 🎥 Quick Demo
-![Demo GIF](https://github.com/user-attachments/assets/b57db73f-b0e5-4c97-93bc-8d05b7bf4f9f)
+## 🎥 Quick Demo 
+
+<video controls><source src="./location_tracker_giff.webm" type="video/webm"></video>
 
 *Watch the complete workflow: Fill form → Submit location → View in table → Open Google Maps*
 
