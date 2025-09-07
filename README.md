@@ -40,6 +40,7 @@
 
 ## 🎥 Quick Demo
 ![Demo GIF](https://github.com/user-attachments/assets/b57db73f-b0e5-4c97-93bc-8d05b7bf4f9f)
+
 *Watch the complete workflow: Fill form → Submit location → View in table → Open Google Maps*
 
 ---
