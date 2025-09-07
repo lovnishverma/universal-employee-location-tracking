@@ -42,7 +42,8 @@
 
 ## 🎥 Quick Demo 
 
-[github-location_tracker_giff.webm](https://github.com/user-attachments/assets/6b90486d-aa19-40ab-81a8-0207a814d7d2)
+<img width="480" height="288" alt="github-location_tracker_video" src="https://github.com/user-attachments/assets/59555e73-a987-41d6-9fa3-410702c565eb" />
+
 
 *Watch the complete workflow: Fill form → Submit location → View in table → Open Google Maps*
 
