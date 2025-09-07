@@ -42,7 +42,7 @@
 
 ## 🎥 Quick Demo 
 
-<img width="480" height="288" alt="github-location_tracker_video" src="https://github.com/user-attachments/assets/59555e73-a987-41d6-9fa3-410702c565eb" />
+[![Watch the demo](https://img.shields.io/badge/▶️%20Watch-Demo-blue)](https://github.com/user-attachments/assets/137f25d0-677f-43bb-b9a8-08aeae78309b)
 
 
 *Watch the complete workflow: Fill form → Submit location → View in table → Open Google Maps*
