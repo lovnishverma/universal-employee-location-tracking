@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Universal Employee Location Tracking</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="app.js" defer></script>
   <script>
     tailwind.config = {
       theme: {
@@ -52,7 +53,7 @@
           </div>
         </div>
         <div>
-          <h1 class="text-3xl font-bold text-slate-900">Employee Location Tracker</h1>
+          <h1 class="text-3xl font-bold text-slate-900">Employee Location Tracking 📍</h1>
           <p class="text-slate-600 mt-1">Real-time workforce location management system</p>
         </div>
       </div>
@@ -71,7 +72,7 @@
           </div>
           <div class="ml-3">
             <h3 class="text-sm font-medium text-red-800">Location Access Required</h3>
-            <p class="mt-1 text-sm text-red-700">Please allow location access and fill all required fields to continue.</p>
+            <p class="mt-1 text-sm text-red-700">⚠️ Please allow location access and fill all fields.</p>
           </div>
         </div>
       </div>
@@ -87,7 +88,7 @@
           </div>
           <div class="ml-3">
             <h3 class="text-sm font-medium text-green-800">Success!</h3>
-            <p class="mt-1 text-sm text-green-700">Your location has been submitted successfully.</p>
+            <p class="mt-1 text-sm text-green-700">✅ Location submitted successfully!</p>
           </div>
         </div>
       </div>
@@ -127,7 +128,7 @@
               <input 
                 type="text" 
                 id="employeeName" 
-                placeholder="Enter your full name" 
+                placeholder="Your full name" 
                 required
                 class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-slate-50 focus:bg-white"
               >
@@ -149,7 +150,7 @@
               <input 
                 type="text" 
                 id="employeeDepartment" 
-                placeholder="Enter department or team name" 
+                placeholder="Department / Team name" 
                 required
                 class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-slate-50 focus:bg-white"
               >
@@ -179,7 +180,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
             </svg>
-            <span>Submit Location</span>
+            <span>Submit Location 🚀</span>
           </div>
         </button>
       </form>
@@ -189,17 +190,17 @@
     <div class="text-center mb-8">
       <button 
         id="viewDataBtn"
-        class="inline-flex items-center px-6 py-3 bg-white border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 shadow-sm hover:shadow-md"
+        class="inline-flex items-center px-8 py-4 bg-white border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-[1.02]"
       >
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
         </svg>
-        View Submitted Locations
+        📄 View Submitted Locations
       </button>
     </div>
 
     <!-- Data Table Container -->
-    <div id="dataTableContainer" class="hidden animate-fade-in">
+    <div id="dataTableContainer" class="hidden animate-fade-in" style="display: none;">
       <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
           <h2 class="text-xl font-bold text-slate-900 flex items-center">
@@ -212,22 +213,25 @@
         </div>
         
         <div class="overflow-x-auto">
-          <table id="dataTable" class="min-w-full divide-y divide-slate-200">
-            <thead class="bg-slate-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Department</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Coordinates</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Timestamp</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Action</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-slate-200"></tbody>
-          </table>
+          <div class="table-wrapper">
+            <table id="dataTable" class="min-w-full divide-y divide-slate-200">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Department</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Latitude</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Longitude</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Timestamp</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Maps Link</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-slate-200"></tbody>
+            </table>
+          </div>
         </div>
         
         <!-- Empty State -->
-        <div id="emptyState" class="text-center py-12 px-6">
+        <div id="emptyState" class="text-center py-12 px-6 hidden">
           <svg class="w-16 h-16 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -239,153 +243,65 @@
     </div>
   </div>
 
+  <!-- Additional JavaScript for enhanced UI interactions -->
   <script>
-    let locationData = [];
-
-    function showMessage(messageId, duration = 5000) {
-      const messageEl = document.getElementById(messageId);
-      messageEl.classList.remove('hidden');
-      setTimeout(() => {
-        messageEl.classList.add('hidden');
-      }, duration);
-    }
-
-    function submitLocation() {
-      const name = document.getElementById('employeeName').value.trim();
-      const department = document.getElementById('employeeDepartment').value.trim();
+    // Show location status when form is submitted
+    document.addEventListener('DOMContentLoaded', function() {
+      // Override the form submission to show loading state
+      const form = document.querySelector('form');
+      const originalSubmit = window.submitLocation;
       
-      if (!name || !department) {
-        showMessage('error-message');
-        return;
-      }
+      window.submitLocation = function() {
+        const locationStatus = document.getElementById('locationStatus');
+        if (locationStatus) {
+          locationStatus.classList.remove('hidden');
+        }
+        
+        // Call original submit function if it exists
+        if (originalSubmit) {
+          originalSubmit();
+        }
+      };
 
-      // Show location status
-      const locationStatus = document.getElementById('locationStatus');
-      locationStatus.classList.remove('hidden');
+      // Enhanced error message display
+      window.showError = function(message) {
+        const errorEl = document.getElementById("error-message");
+        const errorText = errorEl.querySelector('p');
+        if (errorText) {
+          errorText.textContent = message;
+        }
+        errorEl.style.display = "block";
+        errorEl.classList.remove('hidden');
+        document.getElementById("success-message").style.display = "none";
+        document.getElementById("success-message").classList.add('hidden');
+        
+        // Hide location status
+        const locationStatus = document.getElementById('locationStatus');
+        if (locationStatus) {
+          locationStatus.classList.add('hidden');
+        }
+      };
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const timestamp = new Date().toLocaleString();
-            
-            const entry = {
-              name,
-              department,
-              lat: lat.toFixed(6),
-              lng: lng.toFixed(6),
-              timestamp,
-              mapsLink: `https://maps.google.com/?q=${lat},${lng}`
-            };
-            
-            locationData.push(entry);
-            
-            // Clear form
-            document.getElementById('employeeName').value = '';
-            document.getElementById('employeeDepartment').value = '';
-            
-            // Hide location status and show success
-            locationStatus.classList.add('hidden');
-            showMessage('success-message');
-            
-            updateTable();
-          },
-          (error) => {
-            locationStatus.classList.add('hidden');
-            showMessage('error-message');
-            console.error('Geolocation error:', error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 60000
-          }
-        );
-      } else {
-        locationStatus.classList.add('hidden');
-        showMessage('error-message');
-      }
-    }
-
-    function updateTable() {
-      const tbody = document.querySelector('#dataTable tbody');
-      const emptyState = document.getElementById('emptyState');
-      
-      if (locationData.length === 0) {
-        emptyState.classList.remove('hidden');
-        tbody.innerHTML = '';
-        return;
-      }
-      
-      emptyState.classList.add('hidden');
-      
-      tbody.innerHTML = locationData.map((entry, index) => `
-        <tr class="hover:bg-slate-50 transition-colors duration-150 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-25'}">
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="flex items-center">
-              <div class="flex-shrink-0 h-8 w-8">
-                <div class="h-8 w-8 rounded-full bg-gradient-to-r from-blue-400 to-indigo-500 flex items-center justify-center">
-                  <span class="text-xs font-medium text-white">${entry.name.charAt(0).toUpperCase()}</span>
-                </div>
-              </div>
-              <div class="ml-3">
-                <div class="text-sm font-medium text-slate-900">${entry.name}</div>
-              </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-              ${entry.department}
-            </span>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-            <div class="font-mono">
-              <div>Lat: ${entry.lat}</div>
-              <div>Lng: ${entry.lng}</div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${entry.timestamp}</td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <a href="${entry.mapsLink}" target="_blank" 
-               class="inline-flex items-center px-3 py-1 bg-green-100 hover:bg-green-200 text-green-800 text-xs font-medium rounded-md transition-colors duration-150">
-              <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              View on Maps
-            </a>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    document.getElementById('viewDataBtn').addEventListener('click', () => {
-      const container = document.getElementById('dataTableContainer');
-      const isHidden = container.classList.contains('hidden');
-      
-      if (isHidden) {
-        container.classList.remove('hidden');
-        updateTable();
-        document.getElementById('viewDataBtn').innerHTML = `
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-          </svg>
-          Hide Locations
-        `;
-      } else {
-        container.classList.add('hidden');
-        document.getElementById('viewDataBtn').innerHTML = `
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          View Submitted Locations
-        `;
-      }
+      // Enhanced success message display
+      window.showSuccess = function() {
+        document.getElementById("error-message").style.display = "none";
+        document.getElementById("error-message").classList.add('hidden');
+        const success = document.getElementById("success-message");
+        success.style.display = "block";
+        success.classList.remove('hidden');
+        
+        // Hide location status
+        const locationStatus = document.getElementById('locationStatus');
+        if (locationStatus) {
+          locationStatus.classList.add('hidden');
+        }
+        
+        setTimeout(() => {
+          success.style.display = "none";
+          success.classList.add('hidden');
+        }, 4000);
+      };
     });
-
-    // Initialize table on page load
-    updateTable();
   </script>
 </body>
 </html>
