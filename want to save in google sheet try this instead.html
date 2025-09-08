@@ -5,13 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Location Tracking</title>
   <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f4f7fc;
@@ -19,124 +12,36 @@
       padding: 20px;
       font-size: 16px;
     }
-
-    h1 {
-      text-align: center;
-      color: #2d3e50;
-      margin-bottom: 30px;
-    }
-
+    h1 { text-align: center; margin-bottom: 20px; }
     .form-container {
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 25px;
-      text-align: center;
+      background: #fff; padding: 20px; border-radius: 8px;
+      max-width: 500px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-
-    .form-container label {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 8px;
-      display: block;
-      color: #333;
+    .form-container input, .form-container select, .form-container button {
+      width: 100%; padding: 12px; margin: 8px 0;
+      border: 1px solid #ccc; border-radius: 4px;
     }
-
-    .form-container input[type="text"], 
-    .form-container select {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      color: #333;
-    }
-
     .form-container button {
-      width: 100%;
-      padding: 15px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      background: #4CAF50; color: #fff; font-size: 16px; cursor: pointer;
     }
-
-    .form-container button:hover {
-      background-color: #45a049;
-    }
-
-    #error-message {
-      color: red;
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .error-icon {
-      margin-right: 8px;
-    }
-
-    .success-message {
-      color: green;
-      text-align: center;
-      font-size: 16px;
-      display: none;
-    }
-
-    .instruction-message {
-      font-size: 14px;
-      margin-bottom: 20px;
-      color: #555;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-
-      .form-container {
-        padding: 20px;
-      }
-
-      .form-container input[type="text"], 
-      .form-container select, 
-      .form-container button {
-        font-size: 16px;
-      }
-    }
+    .form-container button:hover { background: #45a049; }
+    #error-message { color: red; display: none; margin-bottom: 10px; }
+    #success-message { color: green; display: none; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <h1>Employee Location Tracking 📍</h1>
-  
   <div class="form-container">
-    <div id="error-message">
-      <span class="error-icon">⚠️</span><span id="error-text"></span>
-    </div>
-
-    <div class="success-message" id="success-message">
-      ✅ Your location has been successfully submitted!
-    </div>
-
-    <div class="instruction-message">
-      🗺️ **Important:** Please make sure your device's GPS is turned on and location permissions are granted for accurate tracking.
-    </div>
+    <div id="error-message"></div>
+    <div id="success-message">✅ Location submitted successfully!</div>
 
     <form onsubmit="event.preventDefault(); submitLocation();">
-      <label for="employeeName">Employee Name 👤:</label>
-      <input type="text" id="employeeName" name="employeeName" placeholder="Enter your name" required>
+      <label>Employee Name 👤</label>
+      <input type="text" id="employeeName" required>
 
-      <label for="employeeDesignation">Employee Designation 💼:</label>
-      <select id="employeeDesignation" name="employeeDesignation" required>
-        <option value="" disabled selected>Select your designation</option>
+      <label>Employee Designation 💼</label>
+      <select id="employeeDesignation" required>
+        <option value="" disabled selected>Select</option>
         <option value="Technical Staff">Technical Staff</option>
         <option value="Panchayat Secretary">Panchayat Secretary</option>
       </select>
@@ -146,84 +51,58 @@
   </div>
 
   <script>
-    // Function to display an error message to the user
-    function showError(message) {
-      const errorElement = document.getElementById("error-message");
-      const errorText = document.getElementById("error-text");
-      errorText.innerText = message;
-      errorElement.style.display = "block";
+    function showError(msg) {
+      document.getElementById("error-message").innerText = msg;
+      document.getElementById("error-message").style.display = "block";
     }
-
-    // Function to display a success message
     function showSuccess() {
-      const successMessage = document.getElementById("success-message");
-      successMessage.style.display = "block";
-      setTimeout(() => {
-        successMessage.style.display = "none";
-      }, 5000); // Hide the success message after 5 seconds
+      document.getElementById("success-message").style.display = "block";
+      setTimeout(() => document.getElementById("success-message").style.display = "none", 4000);
     }
 
-    // Function to handle location submission
     function submitLocation() {
-      // Reset any previous error messages
-      document.getElementById("error-message").style.display = "none";
+      if (!navigator.geolocation) return showError("Geolocation not supported.");
 
-      // Check if the browser supports geolocation
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
+      navigator.geolocation.getCurrentPosition(pos => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const name = document.getElementById("employeeName").value;
+        const desig = document.getElementById("employeeDesignation").value;
 
-          // Get the employee name and designation from the input fields
-          const employeeName = document.getElementById("employeeName").value;
-          const employeeDesignation = document.getElementById("employeeDesignation").value;
+        if (!name || !desig) return showError("Fill all fields.");
 
-          // Check if the fields are entered
-          if (!employeeName || !employeeDesignation) {
-            showError("Please enter your name and select your designation.");
-            return;
-          }
+        // ✅ Google Form POST endpoint
+        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/formResponse";
 
-          // Prepare the Google Form URL with pre-filled data
-          // view sheet : https://docs.google.com/spreadsheets/d/13T_oAJH036xZ6N9fP6aJ20lxN541hllK0XhqHfIroOA/edit?usp=sharing
-          const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/viewform?usp=pp_url";
-          const nameField = "entry.2109621649"; // Field ID for Name
-          const designationField = "entry.272176282"; // Field ID for Designation
-          const latitudeField = "entry.329759410"; // Field ID for Latitude
-          const longitudeField = "entry.1964214172"; // Field ID for Longitude
+        // ✅ Field IDs
+        const nameField = "entry.2109621649";
+        const designationField = "entry.272176282";
+        const latitudeField = "entry.329759410";
+        const longitudeField = "entry.1964214172";
+        const mapsField = "entry.1552370847"; //entry.1552370847
 
-          // Construct the URL with the pre-filled data
-          const prefillUrl = googleFormUrl + 
-                             "&" + nameField + "=" + encodeURIComponent(employeeName) +
-                             "&" + designationField + "=" + encodeURIComponent(employeeDesignation) +
-                             "&" + latitudeField + "=" + encodeURIComponent(latitude) +
-                             "&" + longitudeField + "=" + encodeURIComponent(longitude);
 
-          // Redirect the user to the pre-filled Google Form
-          window.location.href = prefillUrl;
+        // ✅ Build Google Maps URL
+        const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
 
-          // Show success message
-          showSuccess();
-        }, function(error) {
-          // Handle errors in geolocation
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              showError("Location access denied. Please enable location services in your browser.");
-              break;
-            case error.POSITION_UNAVAILABLE:
-              showError("Location information is unavailable. Please check your GPS or try again.");
-              break;
-            case error.TIMEOUT:
-              showError("The request to get user location timed out. Please try again.");
-              break;
-            default:
-              showError("An unknown error occurred. Please try again later.");
-              break;
-          }
-        });
-      } else {
-        showError("Geolocation is not supported by this browser.");
-      }
+        // ✅ FormData
+        const data = new FormData();
+        data.append(nameField, name);
+        data.append(designationField, desig);
+        data.append(latitudeField, lat);
+        data.append(longitudeField, lng);
+        data.append(mapsField, mapsUrl); // 👈 store maps link
+
+        fetch(googleFormUrl, { method: "POST", body: data, mode: "no-cors" })
+          .then(() => {
+            showSuccess();
+            document.querySelector("form").reset();
+          })
+          .catch(err => showError("Error submitting: " + err));
+
+      }, err => {
+        showError("Error getting location: " + err.message);
+      });
     }
   </script>
 </body>
