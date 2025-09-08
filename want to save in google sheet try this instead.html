@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,23 +13,61 @@
       padding: 20px;
       font-size: 16px;
     }
-    h1 { text-align: center; margin-bottom: 20px; }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     .form-container {
-      background: #fff; padding: 20px; border-radius: 8px;
-      max-width: 500px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .form-container input, .form-container select, .form-container button {
-      width: 100%; padding: 12px; margin: 8px 0;
-      border: 1px solid #ccc; border-radius: 4px;
-    }
+
+    .form-container input,
+    .form-container select,
     .form-container button {
-      background: #4CAF50; color: #fff; font-size: 16px; cursor: pointer;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
-    .form-container button:hover { background: #45a049; }
-    #error-message { color: red; display: none; margin-bottom: 10px; }
-    #success-message { color: green; display: none; margin-bottom: 10px; }
+
+    .form-container button {
+      background: #4CAF50;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .form-container button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .form-container button:hover:enabled {
+      background: #45a049;
+    }
+
+    #error-message {
+      color: red;
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    #success-message {
+      color: green;
+      display: none;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
+
 <body>
   <h1>Employee Location Tracking 📍</h1>
   <div class="form-container">
@@ -46,7 +85,7 @@
         <option value="Panchayat Secretary">Panchayat Secretary</option>
       </select>
 
-      <button type="submit">Submit Location 🚀</button>
+      <button type="submit" id="submitBtn">Submit Location 🚀</button>
     </form>
   </div>
 
@@ -54,56 +93,78 @@
     function showError(msg) {
       document.getElementById("error-message").innerText = msg;
       document.getElementById("error-message").style.display = "block";
+      document.getElementById("success-message").style.display = "none";
     }
+
     function showSuccess() {
+      document.getElementById("error-message").style.display = "none";
       document.getElementById("success-message").style.display = "block";
-      setTimeout(() => document.getElementById("success-message").style.display = "none", 4000);
+      setTimeout(() => {
+        document.getElementById("success-message").style.display = "none";
+      }, 4000);
     }
 
     function submitLocation() {
-      if (!navigator.geolocation) return showError("Geolocation not supported.");
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+
+      document.getElementById("error-message").style.display = "none";
+      document.getElementById("success-message").style.display = "none";
+
+      const name = document.getElementById("employeeName").value.trim();
+      const desig = document.getElementById("employeeDesignation").value;
+
+      if (!name || !desig) {
+        showError("Please fill in all fields.");
+        submitBtn.disabled = false;
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        showError("Geolocation is not supported by your browser.");
+        submitBtn.disabled = false;
+        return;
+      }
 
       navigator.geolocation.getCurrentPosition(pos => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-        const name = document.getElementById("employeeName").value;
-        const desig = document.getElementById("employeeDesignation").value;
 
-        if (!name || !desig) return showError("Fill all fields.");
-
-        // ✅ Google Form POST endpoint
         const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/formResponse";
 
-        // ✅ Field IDs
         const nameField = "entry.2109621649";
         const designationField = "entry.272176282";
         const latitudeField = "entry.329759410";
         const longitudeField = "entry.1964214172";
-        const mapsField = "entry.1552370847"; //entry.1552370847
+        const mapsField = "entry.1552370847";
 
-
-        // ✅ Build Google Maps URL
         const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
 
-        // ✅ FormData
         const data = new FormData();
         data.append(nameField, name);
         data.append(designationField, desig);
         data.append(latitudeField, lat);
         data.append(longitudeField, lng);
-        data.append(mapsField, mapsUrl); // 👈 store maps link
+        data.append(mapsField, mapsUrl);
 
-        fetch(googleFormUrl, { method: "POST", body: data, mode: "no-cors" })
+        fetch(googleFormUrl, {
+          method: "POST",
+          body: data,
+          mode: "no-cors"
+        })
           .then(() => {
             showSuccess();
             document.querySelector("form").reset();
           })
-          .catch(err => showError("Error submitting: " + err));
+          .catch(err => showError("Error submitting: " + err))
+          .finally(() => submitBtn.disabled = false);
 
       }, err => {
         showError("Error getting location: " + err.message);
+        submitBtn.disabled = false;
       });
     }
   </script>
 </body>
+
 </html>
