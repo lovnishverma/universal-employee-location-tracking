@@ -3,9 +3,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 
 import { 
-  getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  query, 
+  orderBy, 
+  serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
+// 🔹 Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCy2CdR45-n65CU969Kmz39PvWRd-OMkQM",
   authDomain: "location-tracking-85dd8.firebaseapp.com",
@@ -16,9 +23,13 @@ const firebaseConfig = {
   measurementId: "G-CCBQ0NXSBS"
 };
 
+// 🔹 Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// ========================
+// Helper Functions
+// ========================
 function showError(message) {
   const error = document.getElementById("error-message");
   error.innerText = message;
@@ -35,6 +46,9 @@ function showSuccess() {
   }, 4000);
 }
 
+// ========================
+// Submit Location
+// ========================
 window.submitLocation = async function () {
   document.getElementById("error-message").style.display = "none";
 
@@ -83,32 +97,40 @@ window.submitLocation = async function () {
   });
 };
 
+// ========================
+// View Submitted Data
+// ========================
 document.getElementById("viewDataBtn").addEventListener("click", async () => {
   const container = document.getElementById("dataTableContainer");
   const tbody = document.getElementById("dataTable").querySelector("tbody");
-  tbody.innerHTML = ""; // Clear previous data
+  tbody.innerHTML = ""; // Clear old rows
 
-  // ✅ Get docs with latest first
-  const q = query(collection(db, "employee_locations"), orderBy("timestamp", "desc"));
-  const querySnapshot = await getDocs(q);
+  try {
+    // ✅ Fetch ordered docs (latest first)
+    const q = query(collection(db, "employee_locations"), orderBy("timestamp", "desc"));
+    const querySnapshot = await getDocs(q);
 
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    const lat = data.latitude?.toFixed(5);
-    const lng = data.longitude?.toFixed(5);
-    const mapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "#";
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const lat = data.latitude?.toFixed(5);
+      const lng = data.longitude?.toFixed(5);
+      const mapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "#";
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${data.name || "-"}</td>
-      <td>${data.department || "-"}</td>
-      <td>${lat || "-"}</td>
-      <td>${lng || "-"}</td>
-      <td>${data.timestamp ? data.timestamp.toDate().toLocaleString() : "-"}</td>
-      <td>${lat && lng ? `<a href="${mapsLink}" target="_blank">Open in Google Maps</a>` : "-"}</td>
-    `;
-    tbody.appendChild(row);
-  });
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${data.name || "-"}</td>
+        <td>${data.department || "-"}</td>
+        <td>${lat || "-"}</td>
+        <td>${lng || "-"}</td>
+        <td>${data.timestamp ? data.timestamp.toDate().toLocaleString() : "-"}</td>
+        <td>${lat && lng ? `<a href="${mapsLink}" target="_blank">Open in Google Maps</a>` : "-"}</td>
+      `;
+      tbody.appendChild(row);
+    });
 
-  container.style.display = "block";
+    container.style.display = "block";
+  } catch (err) {
+    console.error("Error loading data:", err);
+    showError("Failed to load submitted locations.");
+  }
 });
