@@ -429,7 +429,7 @@ service cloud.firestore {
 ### 📊 Google Sheets Version
 Want to save data directly to Google Sheets instead of Firebase?
 
-**File:** `[want to save in google sheet try this instead.html](https://github.com/lovnishverma/universal-employee-location-tracking/blob/main/want%20to%20save%20in%20google%20sheet%20try%20this%20instead.html)`
+**File:** [want to save in google sheet try this instead.html](https://github.com/lovnishverma/universal-employee-location-tracking/blob/main/want%20to%20save%20in%20google%20sheet%20try%20this%20instead.html)
 
 [View Demo](https://lovnishverma.github.io/universal-employee-location-tracking/want%20to%20save%20in%20google%20sheet%20try%20this%20instead.html)
 
