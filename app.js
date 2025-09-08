@@ -107,23 +107,33 @@ document.getElementById("viewDataBtn").addEventListener("click", async () => {
 
   try {
     // ✅ Fetch ordered docs (latest first)
-    const q = query(collection(db, "employee_locations"), orderBy("timestamp", "desc"));
+    const q = query(
+      collection(db, "employee_locations"),
+      orderBy("timestamp", "desc")
+    );
+
     const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No data found</td></tr>`;
+    }
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      const lat = data.latitude?.toFixed(5);
-      const lng = data.longitude?.toFixed(5);
-      const mapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "#";
+      const lat = data.latitude ? data.latitude.toFixed(5) : "-";
+      const lng = data.longitude ? data.longitude.toFixed(5) : "-";
+      const mapsLink = (lat !== "-" && lng !== "-") 
+        ? `https://www.google.com/maps?q=${lat},${lng}` 
+        : "#";
 
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${data.name || "-"}</td>
         <td>${data.department || "-"}</td>
-        <td>${lat || "-"}</td>
-        <td>${lng || "-"}</td>
+        <td>${lat}</td>
+        <td>${lng}</td>
         <td>${data.timestamp ? data.timestamp.toDate().toLocaleString() : "-"}</td>
-        <td>${lat && lng ? `<a href="${mapsLink}" target="_blank">Open in Google Maps</a>` : "-"}</td>
+        <td>${(lat !== "-" && lng !== "-") ? `<a href="${mapsLink}" target="_blank">Open in Google Maps</a>` : "-"}</td>
       `;
       tbody.appendChild(row);
     });
