@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Location Tracking</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f4f7fc;
@@ -16,152 +22,157 @@
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      color: #2d3e50;
+      margin-bottom: 30px;
     }
 
     .form-container {
-      background: #fff;
-      padding: 20px;
+      background-color: #ffffff;
       border-radius: 8px;
-      max-width: 500px;
-      margin: auto;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 25px;
+      text-align: center;
     }
 
-    .form-container input,
-    .form-container select,
-    .form-container button {
+    .form-container label {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+    }
+
+    .form-container input[type="text"],
+    .form-container select {
       width: 100%;
       padding: 12px;
-      margin: 8px 0;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 14px;
+      color: #333;
     }
 
     .form-container button {
-      background: #4CAF50;
-      color: #fff;
-      font-size: 16px;
+      width: 100%;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 18px;
       cursor: pointer;
-    }
-
-    .form-container button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .form-container button:hover:enabled {
-      background: #45a049;
+      transition: background-color 0.3s ease;
     }
 
     #error-message {
       color: red;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 14px;
       display: none;
-      margin-bottom: 10px;
     }
 
-    #success-message {
+    .success-message {
       color: green;
+      text-align: center;
+      font-size: 16px;
       display: none;
-      margin-bottom: 10px;
     }
   </style>
 </head>
 
 <body>
   <h1>Employee Location Tracking 📍</h1>
+
   <div class="form-container">
     <div id="error-message"></div>
-    <div id="success-message">✅ Location submitted successfully!</div>
+    <div class="success-message" id="success-message">
+      ✅ Your location has been successfully submitted!
+    </div>
 
-    <form onsubmit="event.preventDefault(); submitLocation();">
-      <label>Employee Name 👤</label>
-      <input type="text" id="employeeName" required>
+    <label for="employeeName">Employee Name 👤:</label>
+    <input type="text" id="employeeName" placeholder="Enter your name" required>
 
-      <label>Employee Designation 💼</label>
-      <select id="employeeDesignation" required>
-        <option value="" disabled selected>Select</option>
-        <option value="Technical Staff">Technical Staff</option>
-        <option value="Panchayat Secretary">Panchayat Secretary</option>
-      </select>
+    <label for="employeeDesignation">Employee Designation 💼:</label>
+    <select id="employeeDesignation" required>
+      <option value="" disabled selected>Select your designation</option>
+      <option value="Technical Staff">Technical Staff</option>
+      <option value="Panchayat Secretary">Panchayat Secretary</option>
+    </select>
 
-      <button type="submit" id="submitBtn">Submit Location 🚀</button>
+    <button onclick="submitLocation()">Submit Location 🚀</button>
+
+    <!-- Hidden form to submit data to Google Forms -->
+    <form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/formResponse" method="POST" target="_blank" style="display:none;">
+      <input type="hidden" name="entry.2109621649" id="nameField">
+      <input type="hidden" name="entry.272176282" id="designationField">
+      <input type="hidden" name="entry.329759410" id="latitudeField">
+      <input type="hidden" name="entry.1964214172" id="longitudeField">
+      <input type="hidden" name="entry.1552370847" id="mapsField">
     </form>
   </div>
 
   <script>
     function showError(msg) {
-      document.getElementById("error-message").innerText = msg;
-      document.getElementById("error-message").style.display = "block";
-      document.getElementById("success-message").style.display = "none";
+      const el = document.getElementById("error-message");
+      el.innerText = msg;
+      el.style.display = "block";
     }
 
     function showSuccess() {
-      document.getElementById("error-message").style.display = "none";
-      document.getElementById("success-message").style.display = "block";
+      const el = document.getElementById("success-message");
+      el.style.display = "block";
       setTimeout(() => {
-        document.getElementById("success-message").style.display = "none";
-      }, 4000);
+        el.style.display = "none";
+      }, 5000);
     }
 
     function submitLocation() {
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-
       document.getElementById("error-message").style.display = "none";
-      document.getElementById("success-message").style.display = "none";
 
       const name = document.getElementById("employeeName").value.trim();
-      const desig = document.getElementById("employeeDesignation").value;
+      const designation = document.getElementById("employeeDesignation").value;
 
-      if (!name || !desig) {
-        showError("Please fill in all fields.");
-        submitBtn.disabled = false;
-        return;
+      if (!name || !designation) {
+        return showError("Please fill in all fields.");
       }
 
       if (!navigator.geolocation) {
-        showError("Geolocation is not supported by your browser.");
-        submitBtn.disabled = false;
-        return;
+        return showError("Geolocation is not supported by your browser.");
       }
 
       navigator.geolocation.getCurrentPosition(pos => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-
-        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/formResponse";
-
-        const nameField = "entry.2109621649";
-        const designationField = "entry.272176282";
-        const latitudeField = "entry.329759410";
-        const longitudeField = "entry.1964214172";
-        const mapsField = "entry.1552370847";
-
         const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
 
-        const data = new FormData();
-        data.append(nameField, name);
-        data.append(designationField, desig);
-        data.append(latitudeField, lat);
-        data.append(longitudeField, lng);
-        data.append(mapsField, mapsUrl);
+        document.getElementById('nameField').value = name;
+        document.getElementById('designationField').value = designation;
+        document.getElementById('latitudeField').value = lat;
+        document.getElementById('longitudeField').value = lng;
+        document.getElementById('mapsField').value = mapsUrl;
 
-        fetch(googleFormUrl, {
-          method: "POST",
-          body: data,
-          mode: "no-cors"
-        })
-          .then(() => {
-            showSuccess();
-            document.querySelector("form").reset();
-          })
-          .catch(err => showError("Error submitting: " + err))
-          .finally(() => submitBtn.disabled = false);
+        document.getElementById('googleForm').submit();
 
+        showSuccess();
       }, err => {
-        showError("Error getting location: " + err.message);
-        submitBtn.disabled = false;
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            showError("Location access denied. Enable it in browser settings.");
+            break;
+          case err.POSITION_UNAVAILABLE:
+            showError("Position unavailable. Try again later.");
+            break;
+          case err.TIMEOUT:
+            showError("Timeout getting location. Try again.");
+            break;
+          default:
+            showError("An unknown error occurred.");
+            break;
+        }
       });
     }
   </script>
