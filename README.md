@@ -433,6 +433,13 @@ Want to save data directly to Google Sheets instead of Firebase?
 
 [View Demo](https://lovnishverma.github.io/universal-employee-location-tracking/want%20to%20save%20in%20google%20sheet%20try%20this%20instead.html)
 
+
+<img width="1764" height="392" alt="image" src="https://github.com/user-attachments/assets/fac370ce-5d5d-4c0f-a052-b51d5f40f356" />
+
+
+<img width="1919" height="623" alt="image" src="https://github.com/user-attachments/assets/e2f49a5d-2be4-4c63-950f-ead68b2c717d" />
+
+
 This alternative version:
 - Uses **Google Apps Script** for backend processing
 - Stores data in **Google Sheets** spreadsheet  
