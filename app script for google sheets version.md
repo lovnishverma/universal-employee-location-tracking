@@ -100,6 +100,10 @@ function onFormSubmit(e) {
 
 ---
 
+<img width="1409" height="557" alt="image" src="https://github.com/user-attachments/assets/22f34cfd-0919-410d-a5b4-9eb6150772b3" />
+
+
+
 # 2) Why this is better than trying to put ARRAYFORMULA into the header
 
 * Your sheet UI prevented formulas in that header row.
