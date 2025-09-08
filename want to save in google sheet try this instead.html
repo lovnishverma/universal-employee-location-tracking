@@ -105,13 +105,13 @@
 
     <button onclick="submitLocation()">Submit Location 🚀</button>
 
+<!--     view sheet : https://docs.google.com/spreadsheets/d/13T_oAJH036xZ6N9fP6aJ20lxN541hllK0XhqHfIroOA/edit?usp=sharing -->
     <!-- Hidden form to submit data to Google Forms -->
     <form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdEua5CIgkr3JPB1kpzBE-nFcUgFb2P6cz6gUVCN7-WG6CYDw/formResponse" method="POST" target="_blank" style="display:none;">
       <input type="hidden" name="entry.2109621649" id="nameField">
       <input type="hidden" name="entry.272176282" id="designationField">
       <input type="hidden" name="entry.329759410" id="latitudeField">
       <input type="hidden" name="entry.1964214172" id="longitudeField">
-      <input type="hidden" name="entry.1552370847" id="mapsField">
     </form>
   </div>
 
@@ -147,13 +147,11 @@
       navigator.geolocation.getCurrentPosition(pos => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-        const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
 
         document.getElementById('nameField').value = name;
         document.getElementById('designationField').value = designation;
         document.getElementById('latitudeField').value = lat;
         document.getElementById('longitudeField').value = lng;
-        document.getElementById('mapsField').value = mapsUrl;
 
         document.getElementById('googleForm').submit();
 
