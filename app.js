@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCy2CdR45-n65CU969Kmz39PvWRd-OMkQM",
@@ -83,7 +83,7 @@ document.getElementById("viewDataBtn").addEventListener("click", async () => {
   const tbody = document.getElementById("dataTable").querySelector("tbody");
   tbody.innerHTML = ""; // Clear previous data
 
-  const querySnapshot = await getDocs(collection(db, "employee_locations"));
+  const q = query(collection(db, "employee_locations"), orderBy("timestamp", "desc"));
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     const lat = data.latitude?.toFixed(5);
